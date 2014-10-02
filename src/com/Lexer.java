@@ -59,6 +59,12 @@ public class Lexer {
 			}
 		}
 
+		if (lastFinalState != 0) {
+			//success //todo add to hash table
+			//std::cout << "POSITION: " << startingPosition+1 << " - " << lastPositionWithFinalState << " FINAL STATE: " << lastFinalState << std::endl;
+			System.out.println("POSITION: " + (startingPosition + 1) + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
+		}
+
 	}
 
 	private boolean areAllBroken(int[] states) {
@@ -135,7 +141,7 @@ public class Lexer {
 	private int identifyInt(char ch, int state) {
 		switch (state) {
 			case 1:
-				if (Character.isLetter(ch)) {
+				if (Character.isDigit(ch)) {
 					return -18;
 				}
 				return 0;
@@ -377,7 +383,10 @@ public class Lexer {
 				if (ch == ' ') {
 					return SPACE;
 				}
-				if (ch == ' ') {
+				if (ch == '\t') {
+					return SPACE;
+				}
+				if (ch == '\r') {
 					return SPACE;
 				}
 				if (ch == '\n') {
@@ -388,7 +397,10 @@ public class Lexer {
 				if (ch == ' ') {
 					return SPACE;
 				}
-				if (ch == ' ') {
+				if (ch == '\t') {
+					return SPACE;
+				}
+				if (ch == '\r') {
 					return SPACE;
 				}
 				if (ch == '\n') {

@@ -27,7 +27,7 @@ public class Translator {
 		File f = new File(filename);
 		try {
 			byte[] bytes = Files.readAllBytes(f.toPath());
-			return new String(bytes,"UTF-8");
+			return new String(bytes, "UTF-8");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

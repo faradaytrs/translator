@@ -1,1 +1,3 @@
-helloaaaaaaaa @ return 1.1 54
+public static void main() {
+	hello;
+}

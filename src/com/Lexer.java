@@ -3,6 +3,7 @@ package com;
 /**
  * Изотов Андрей ИВТ11-БО
  */
+
 public class Lexer {
 
 	public static final int LENGTH = 7;
@@ -153,37 +154,11 @@ public class Lexer {
 				if (Character.isLetter(ch)) {
 					return -6;
 				}
-				return 0;
 			case -6:
-				if (Character.isLetterOrDigit(ch)) {
-					return -7;
+				if (Character.isLetter(ch)) {
+					return -6;
 				}
-				return 0;
-			case -7:
-				if (Character.isLetterOrDigit(ch)) {
-					return -8;
-				}
-				return 0;
-			case -8:
-				if (Character.isLetterOrDigit(ch)) {
-					return -9;
-				}
-				return 0;
-			case -9:
-				if (Character.isLetterOrDigit(ch)) {
-					return -10;
-				}
-				return 0;
-			case -10:
-				if (Character.isLetterOrDigit(ch)) {
-					return -11;
-				}
-				return 0;
-			case -11:
-				if (Character.isLetterOrDigit(ch)) {
-					return -12;
-				}
-				return 0;
+				//-7 - -12 reserved by this FSM
 		}
 		return 0;
 	}
@@ -275,7 +250,6 @@ public class Lexer {
 		}
 		return 0;
 	}
-
 
 	private int identifyFloat(char ch, int state) {
 		switch (state) {

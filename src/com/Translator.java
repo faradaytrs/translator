@@ -8,12 +8,12 @@ import java.nio.file.Files;
 /**
  * Изотов Андрей ИВТ11-БО
  */
+
 public class Translator {
 
 	public static void main(String[] args) {
 
 		String currentWorkingDirectory = System.getProperty("user.dir");
-
 
 		if (args.length > 0) {
 			Lexer lexer = new Lexer(readFile(currentWorkingDirectory + "\\src\\com\\" + args[0]));

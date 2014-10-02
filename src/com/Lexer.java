@@ -1,7 +1,5 @@
 package com;
 
-import com.exceptions.NoFileException;
-
 import java.io.*;
 
 /**
@@ -30,13 +28,8 @@ public class Lexer {
 		file.close();
 	}
 
-	private String getOutputFilePath(String fileName) {
-		String currentWorkingDirectory = System.getProperty("user.dir");
-		return currentWorkingDirectory + "\\src\\com\\" + fileName;
-	}
-
 	private PrintWriter createFile(PrintWriter file, String fileName) {
-		String path = getOutputFilePath(fileName);
+		String path = Translator.getOutputFilePath(fileName);
 		try {
 			//rewriting old file
 			new PrintWriter(path);
@@ -65,21 +58,15 @@ public class Lexer {
 
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
-					try {
-						printErrorToConsole(i, code.charAt(i));
-						printErrorToFile(i, code.charAt(i));
-					} catch (NoFileException e) {
-						//e.printStackTrace();
-					}
+
+					printErrorToConsole(i, code.charAt(i));
+					printErrorToFile(i, code.charAt(i));
+
 					states = initStates();
 				} else {
 					//success //todo add to hash table
-					try {
-						printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
-						printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
-					} catch (NoFileException e) {
-						//e.printStackTrace();
-					}
+					printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
+					printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
 					startingPosition = i;
@@ -95,7 +82,8 @@ public class Lexer {
 
 		if (lastFinalState != 0) {
 			//success //todo add to hash table
-			System.out.println("POSITION: " + (startingPosition + 1) + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
+			printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
+			printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
 		}
 
 	}
@@ -108,18 +96,15 @@ public class Lexer {
 		System.out.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
 	}
 
-	private void printTokenToFile(int startingPosition, int lastPositionWithFinalState, int lastFinalState) throws NoFileException {
+	private void printTokenToFile(int startingPosition, int lastPositionWithFinalState, int lastFinalState) {
 
 		file.println("POSITION: " + startingPosition + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
-		//file.close();
 
 	}
 
-	private void printErrorToFile(int currentPosition, char ch) throws NoFileException {
+	private void printErrorToFile(int currentPosition, char ch) {
 
 		file.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
-		//file.close();
-
 
 	}
 

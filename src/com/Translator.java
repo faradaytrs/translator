@@ -14,7 +14,7 @@ public class Translator {
 		String currentWorkingDirectory = System.getProperty("user.dir");
 
 		if (args.length > 0) {
-			Lexer lexer = new Lexer(readFile(currentWorkingDirectory + "\\src\\com\\" + args[0]), "result.txt");
+			Lexer lexer = new Lexer(readFile(getOutputFilePath(args[0])), "result.txt");
 		} else {
 			System.out.println("Set filename as argument");
 		}
@@ -32,6 +32,11 @@ public class Translator {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	public static String getOutputFilePath(String fileName) {
+		String currentWorkingDirectory = System.getProperty("user.dir");
+		return currentWorkingDirectory + "\\" + fileName;
 	}
 
 }

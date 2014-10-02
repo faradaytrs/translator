@@ -39,12 +39,10 @@ public class Lexer {
 
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
-					//std::cout << "POSITION: " << i << " ERROR CANNOT RECOGNIZE SYMBOL: " << text[i] << " CODE " << (int) text[i] << std::endl;
 					System.out.println("POSITION: " + i + " ERROR CANNOT RECOGNIZE SYMBOL: " + code.charAt(i) + " CODE " + (int)code.charAt(i));
 					states = initStates();
 				} else {
 					//success //todo add to hash table
-					//std::cout << "POSITION: " << startingPosition+1 << " - " << lastPositionWithFinalState << " FINAL STATE: " << lastFinalState << std::endl;
 					System.out.println("POSITION: " + (startingPosition + 1) + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
@@ -61,7 +59,6 @@ public class Lexer {
 
 		if (lastFinalState != 0) {
 			//success //todo add to hash table
-			//std::cout << "POSITION: " << startingPosition+1 << " - " << lastPositionWithFinalState << " FINAL STATE: " << lastFinalState << std::endl;
 			System.out.println("POSITION: " + (startingPosition + 1) + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
 		}
 

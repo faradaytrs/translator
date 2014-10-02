@@ -1,5 +1,9 @@
 package com;
 
+import com.exceptions.NoFileException;
+
+import java.io.*;
+
 /**
  * Изотов Андрей ИВТ11-БО
  */
@@ -18,8 +22,30 @@ public class Lexer {
 	public static final int CLOSING_ROUND_BRACE = -17;
 	public static final int SEMICOLON = -18;
 
-	public Lexer(String code) {
+	private PrintWriter file;
+
+	public Lexer(String code, String outputFileName) {
+		file = createFile(file, outputFileName);
 		parse(code);
+		file.close();
+	}
+
+	private String getOutputFilePath(String fileName) {
+		String currentWorkingDirectory = System.getProperty("user.dir");
+		return currentWorkingDirectory + "\\src\\com\\" + fileName;
+	}
+
+	private PrintWriter createFile(PrintWriter file, String fileName) {
+		String path = getOutputFilePath(fileName);
+		try {
+			//rewriting old file
+			new PrintWriter(path);
+			//opening it and saving
+			return new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private void parse(String code) {
@@ -39,11 +65,21 @@ public class Lexer {
 
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
-					System.out.println("POSITION: " + i + " ERROR CANNOT RECOGNIZE SYMBOL: " + code.charAt(i) + " CODE " + (int)code.charAt(i));
+					try {
+						printErrorToConsole(i, code.charAt(i));
+						printErrorToFile(i, code.charAt(i));
+					} catch (NoFileException e) {
+						//e.printStackTrace();
+					}
 					states = initStates();
 				} else {
 					//success //todo add to hash table
-					System.out.println("POSITION: " + (startingPosition + 1) + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
+					try {
+						printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
+						printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
+					} catch (NoFileException e) {
+						//e.printStackTrace();
+					}
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
 					startingPosition = i;
@@ -63,6 +99,30 @@ public class Lexer {
 		}
 
 	}
+
+	private void printTokenToConsole(int startingPosition, int lastPositionWithFinalState, int lastFinalState) {
+		System.out.println("POSITION: " + startingPosition + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
+	}
+
+	private void printErrorToConsole(int currentPosition, char ch) {
+		System.out.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
+	}
+
+	private void printTokenToFile(int startingPosition, int lastPositionWithFinalState, int lastFinalState) throws NoFileException {
+
+		file.println("POSITION: " + startingPosition + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
+		//file.close();
+
+	}
+
+	private void printErrorToFile(int currentPosition, char ch) throws NoFileException {
+
+		file.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
+		//file.close();
+
+
+	}
+
 
 	private boolean areAllBroken(int[] states) {
 		//temporary code

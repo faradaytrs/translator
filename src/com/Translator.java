@@ -1,8 +1,6 @@
 package com;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 
 /**
@@ -16,7 +14,7 @@ public class Translator {
 		String currentWorkingDirectory = System.getProperty("user.dir");
 
 		if (args.length > 0) {
-			Lexer lexer = new Lexer(readFile(currentWorkingDirectory + "\\src\\com\\" + args[0]));
+			Lexer lexer = new Lexer(readFile(currentWorkingDirectory + "\\src\\com\\" + args[0]), "result.txt");
 		} else {
 			System.out.println("Set filename as argument");
 		}

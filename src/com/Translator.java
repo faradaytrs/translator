@@ -1,6 +1,8 @@
 package com;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
 
 /**
@@ -18,6 +20,18 @@ public class Translator {
 		} else {
 			System.out.println("Set filename as argument");
 		}
+
+		HashTable table = new HashTable(18);
+
+//		try {
+//			table.add("hello");
+//			System.out.println(table.getIndexInTable("hello"));
+//		} catch (NoPlaceInTableException e) {
+//			e.printStackTrace();
+//		} catch (NoSuchElementException e) {
+//			e.printStackTrace();
+//		}
+
 
 	}
 

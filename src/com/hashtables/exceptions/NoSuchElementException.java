@@ -1,4 +1,4 @@
-package exceptions;
+package com.hashtables.exceptions;
 
 /**
  * Created by farad_000 on 03.10.2014.

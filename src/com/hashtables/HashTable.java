@@ -1,7 +1,7 @@
-package com;
+package com.hashtables;
 
-import exceptions.NoPlaceInTableException;
-import exceptions.NoSuchElementException;
+import com.hashtables.exceptions.NoPlaceInTableException;
+import com.hashtables.exceptions.NoSuchElementException;
 
 /**
  * Created by farad_000 on 03.10.2014.

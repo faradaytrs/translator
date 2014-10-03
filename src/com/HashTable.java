@@ -25,18 +25,22 @@ public class HashTable {
 		this.lengthOfArray = lengthOfArray;
 	}
 
-	public int getHash(String str, int step) {
+	private int getHash(String str, int step) {
 		int length = str.length();
 		int index = 0;
 		for (int i = 0; i < length; i++) {
 			index += (int)str.charAt(i);
 		}
 		index += step;
+
+		//here we multiply our number with prime number to make less collisions for small identifiers
+		index *= 7;
 		index %= lengthOfArray;
+
 		return index;
 	}
 
-	private int getHash(String str) {
+	public int getHash(String str) {
 		return getHash(str, 0);
 	}
 

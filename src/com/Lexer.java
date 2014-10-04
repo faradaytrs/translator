@@ -35,17 +35,11 @@ public class Lexer {
 		}
 	}
 
-	private PrintWriter getFile(String fileName) throws IOException {
-		String path = Translator.getOutputFilePath(fileName);
-		return new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
-	}
-
 	private void parse(String code) {
 
-		int[] states;
-		int length = code.length();
+		int[] states = initStates();
 
-		states = initStates();
+		int length = code.length();
 
 		int lastFinalState = 0;
 		int lastPositionWithFinalState = 0;
@@ -58,17 +52,27 @@ public class Lexer {
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
 
-					printErrorToConsole(i, code.charAt(i));
-					printErrorToFile(i, code.charAt(i));
+					Token token = new Token(startingPosition, startingPosition, code.substring(startingPosition, i+1), 0);
+
+					token.printToConsole();
+					token.printToFile();
 
 					states = initStates();
+
+					startingPosition = i + 1;
 				} else {
 					//success //todo add to hash table
-					printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
-					printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
+
+					Token token = new Token(startingPosition, lastPositionWithFinalState, code.substring(startingPosition, lastPositionWithFinalState+1), lastFinalState);
+
+					token.printToConsole();
+					token.printToFile();
+
+					//printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
+					//printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
-					startingPosition = i;
+					startingPosition = i+1;
 					states = initStates();
 				}
 			} else {
@@ -81,43 +85,15 @@ public class Lexer {
 
 		if (lastFinalState != 0) {
 			//success //todo add to hash table
-			printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
-			printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
+
+			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
+
+			token.printToConsole();
+			token.printToFile();
+
 		}
 
 	}
-
-	private void printTokenToConsole(int startingPosition, int lastPositionWithFinalState, int lastFinalState) {
-		System.out.println("POSITION: " + startingPosition + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
-	}
-
-	private void printErrorToConsole(int currentPosition, char ch) {
-		System.out.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
-	}
-
-	private void printTokenToFile(int startingPosition, int lastPositionWithFinalState, int lastFinalState) {
-
-		try {
-			PrintWriter file = getFile("result.txt");
-			file.println("POSITION: " + startingPosition + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void printErrorToFile(int currentPosition, char ch) {
-		try {
-			PrintWriter file = getFile("result.txt");
-			file.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 
 	private boolean areAllBroken(int[] states) {
 		//temporary code

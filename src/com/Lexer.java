@@ -20,25 +20,24 @@ public class Lexer {
 	public static final int CLOSING_ROUND_BRACE = -17;
 	public static final int SEMICOLON = -18;
 
-	private PrintWriter file;
-
 	public Lexer(String code, String outputFileName) {
-		file = createFile(file, outputFileName);
+		createFile(outputFileName);
 		parse(code);
-		file.close();
 	}
 
-	private PrintWriter createFile(PrintWriter file, String fileName) {
+	private void createFile(String fileName) {
 		String path = Translator.getOutputFilePath(fileName);
 		try {
 			//rewriting old file
 			new PrintWriter(path);
-			//opening it and saving
-			return new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+	}
+
+	private PrintWriter getFile(String fileName) throws IOException {
+		String path = Translator.getOutputFilePath(fileName);
+		return new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
 	}
 
 	private void parse(String code) {
@@ -98,13 +97,24 @@ public class Lexer {
 
 	private void printTokenToFile(int startingPosition, int lastPositionWithFinalState, int lastFinalState) {
 
-		file.println("POSITION: " + startingPosition + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
+		try {
+			PrintWriter file = getFile("result.txt");
+			file.println("POSITION: " + startingPosition + " — " + lastPositionWithFinalState + " FINAL STATE: " + lastFinalState);
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	private void printErrorToFile(int currentPosition, char ch) {
-
-		file.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
+		try {
+			PrintWriter file = getFile("result.txt");
+			file.println("POSITION: " + currentPosition + " ERROR CANNOT RECOGNIZE SYMBOL: " + ch + " CODE " + (int)ch);
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

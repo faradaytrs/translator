@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 
-/**
+/*
  * Изотов Андрей ИВТ11-БО
  */
 
@@ -20,7 +20,6 @@ public class Translator {
 		} else {
 			System.out.println("Set filename as argument");
 		}
-
 
 	}
 

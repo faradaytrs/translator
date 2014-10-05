@@ -4,13 +4,13 @@ import com.hashtables.exceptions.NoPlaceInTableException;
 import com.hashtables.exceptions.NoSuchElementException;
 
 /**
- * Created by farad_000 on 03.10.2014.
+ * Created by Andrey Izotov on 03.10.2014.
  */
 public class HashTable {
 
 	private final String[] table;
 
-	int lengthOfArray;
+	private int lengthOfArray;
 
 	public HashTable(int lengthOfArray) {
 		setLengthOfArray(lengthOfArray);
@@ -29,12 +29,10 @@ public class HashTable {
 		int length = str.length();
 		int index = 0;
 		for (int i = 0; i < length; i++) {
-			index += (int)str.charAt(i);
+			index += (int)str.charAt(i)*i;
 		}
 		index += step;
 
-		//here we multiply our number with prime number to make less collisions for small identifiers
-		index *= 7;
 		index %= lengthOfArray;
 
 		return index;

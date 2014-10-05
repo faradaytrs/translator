@@ -72,7 +72,7 @@ public class Lexer {
 					//printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
-					startingPosition = i+1;
+					startingPosition = i + 1;
 					states = initStates();
 				}
 			} else {

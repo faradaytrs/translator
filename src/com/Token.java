@@ -17,10 +17,10 @@ public class Token {
 	private int state;
 
 	public Token(int startingPosition, int endingPosition, String token, int state) {
-		this.state = state;
-		this.token = token;
-		this.endingPosition = endingPosition;
-		this.startingPosition = startingPosition;
+		setStartingPosition(startingPosition);
+		setToken(token);
+		setEndingPosition(endingPosition);
+		setState(state);
 	}
 
 	public int getStartingPosition() {
@@ -64,6 +64,7 @@ public class Token {
 	}
 
 	public void printToFile() {
+		//todo rework writing to file, now it works very slow
 		try {
 			PrintWriter file = getFile("result.txt");
 			file.println(printText());

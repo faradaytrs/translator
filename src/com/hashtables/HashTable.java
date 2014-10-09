@@ -27,16 +27,22 @@ public class HashTable {
 
 	private int getHash(String str, int step) {
 		int length = str.length();
-		int index = 0;
+		long index = 0;
 		for (int i = 0; i < length; i++) {
-			index += (int)str.charAt(i)*i;
+			index += (int)str.charAt(i)*(i%3);
 		}
 		index += step;
 
 		index %= lengthOfArray;
 
-		return index;
+		return (int)index;
 	}
+
+	// 5 size of array
+	//"sparrow" => 3
+	//"bird" => 4
+
+	//
 
 	public int getHash(String str) {
 		return getHash(str, 0);

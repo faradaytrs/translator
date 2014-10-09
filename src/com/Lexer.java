@@ -41,6 +41,10 @@ public class Lexer {
 
 		int length = code.length();
 
+		//abc 1.1 #
+		// 1.1d+
+		// 1.1
+
 		int lastFinalState = 0;
 		int lastPositionWithFinalState = 0;
 		int startingPosition = 0;
@@ -52,7 +56,7 @@ public class Lexer {
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
 
-					Token token = new Token(startingPosition, startingPosition, code.substring(startingPosition, i+1), 0);
+					Token token = new Token(startingPosition, i+1, code.substring(startingPosition, i+1), 0);
 
 					token.printToConsole();
 					token.printToFile();
@@ -168,6 +172,7 @@ public class Lexer {
 
 	private int identifyInt(char ch, int state) {
 		switch (state) {
+			//11234d
 			case 1:
 				if (Character.isDigit(ch)) {
 					return -18;

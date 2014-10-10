@@ -1,7 +1,5 @@
 package com;
 
-import com.hashtables.HashTable;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,8 +20,6 @@ public class Translator {
 //		} else {
 //			System.out.println("Use arguments like: java %filename% %name of input file% %name of output file%");
 //		}
-
-		HashTable ht = new HashTable(25);
 
 	}
 

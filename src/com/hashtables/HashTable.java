@@ -25,13 +25,13 @@ public class HashTable {
 		this.lengthOfArray = lengthOfArray;
 	}
 
-	private int getHash(String str, int step) {
+	private int getHash(String str) {
 		int length = str.length();
 		long index = 0;
 		for (int i = 0; i < length; i++) {
 			index += (int)str.charAt(i)*(i%3);
 		}
-		index += step;
+		//index += step;
 
 		index %= lengthOfArray;
 
@@ -44,30 +44,36 @@ public class HashTable {
 
 	//
 
-	public int getHash(String str) {
-		return getHash(str, 0);
-	}
-
 	public int add(String str) throws NoPlaceInTableException {
+
+		int index = getHash(str);
+
 		for (int i = 0; i < lengthOfArray; i++) {
-			int index = getHash(str, i);
-			if (table[index] == null) {
-				table[index] = str;
+
+			if (table[index + i] == null) {
+
+				table[index + i] = str;
 				return index;
-			} else if (table[index].equals(str)) {
+
+			} else if (table[index + i].equals(str)) {
 				return index;
 			}
+
 		}
 		throw new NoPlaceInTableException();
 	}
 
 	//returns index or throws exception that there is no such element
 	public int getIndexInTable(String str) throws NoSuchElementException {
+
+		int index = getHash(str);
+
 		for (int i = 0; i < lengthOfArray; i++) {
-			int index = getHash(str, i);
-			if (str.equals(table[index])) {
+
+			if (str.equals(table[index + i])) {
 				return index;
 			}
+
 		}
 		throw new NoSuchElementException();
 	}

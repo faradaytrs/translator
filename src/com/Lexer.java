@@ -33,10 +33,9 @@ public class Lexer {
 	}
 
 	private void createFile(String outputFilePath) {
-		String path = outputFilePath;
 		try {
 			//rewriting old file
-			new PrintWriter(path);
+			new PrintWriter(outputFilePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

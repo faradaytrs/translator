@@ -20,13 +20,20 @@ public class Lexer {
 	public static final int CLOSING_ROUND_BRACE = -17;
 	public static final int SEMICOLON = -18;
 
-	public Lexer(String code, String outputFileName) {
-		createFile(outputFileName);
+	public static String outputFilePath;
+
+	public static void setOutputFilePath(String outputFilePath) {
+		Lexer.outputFilePath = outputFilePath;
+	}
+
+	public Lexer(String code, String outputFilePath) {
+		setOutputFilePath(outputFilePath);
+		createFile(outputFilePath);
 		parse(code);
 	}
 
-	private void createFile(String fileName) {
-		String path = Translator.getOutputFilePath(fileName);
+	private void createFile(String outputFilePath) {
+		String path = outputFilePath;
 		try {
 			//rewriting old file
 			new PrintWriter(path);
@@ -59,7 +66,7 @@ public class Lexer {
 					Token token = new Token(startingPosition, i+1, code.substring(startingPosition, i+1), 0);
 
 					token.printToConsole();
-					token.printToFile();
+					token.printToFile(outputFilePath);
 
 					states = initStates();
 
@@ -67,10 +74,10 @@ public class Lexer {
 				} else {
 					//success //todo add to hash table
 
-					Token token = new Token(startingPosition, lastPositionWithFinalState, code.substring(startingPosition, lastPositionWithFinalState+1), lastFinalState);
+					Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState+1), lastFinalState);
 
 					token.printToConsole();
-					token.printToFile();
+					token.printToFile(outputFilePath);
 
 					//printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
 					//printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
@@ -93,7 +100,7 @@ public class Lexer {
 			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
 
 			token.printToConsole();
-			token.printToFile();
+			token.printToFile(outputFilePath);
 
 		}
 

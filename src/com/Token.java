@@ -63,10 +63,10 @@ public class Token {
 		return "LEXEME: \'" + getToken() + "\'" + " POSITION " + getStartingPosition() + " — " + getEndingPosition() + " STATE: \'" + getState() + "\'";
 	}
 
-	public void printToFile() {
+	public void printToFile(String filePath) {
 		//todo rework writing to file, now it works very slow
 		try {
-			PrintWriter file = getFile("result.txt");
+			PrintWriter file = getFile(filePath);
 			file.println(printText());
 			file.close();
 		} catch (IOException e) {
@@ -74,9 +74,8 @@ public class Token {
 		}
 	}
 
-	private PrintWriter getFile(String fileName) throws IOException {
-		String path = Translator.getOutputFilePath(fileName);
-		return new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
+	private PrintWriter getFile(String filePath) throws IOException {
+		return new PrintWriter(new BufferedWriter(new FileWriter(filePath, true)));
 	}
 
 }

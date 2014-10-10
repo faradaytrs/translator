@@ -48,12 +48,14 @@ public class HashTable {
 		return getHash(str, 0);
 	}
 
-	public void add(String str) throws NoPlaceInTableException {
+	public int add(String str) throws NoPlaceInTableException {
 		for (int i = 0; i < lengthOfArray; i++) {
 			int index = getHash(str, i);
 			if (table[index] == null) {
 				table[index] = str;
-				return;
+				return index;
+			} else if (table[index].equals(str)) {
+				return index;
 			}
 		}
 		throw new NoPlaceInTableException();

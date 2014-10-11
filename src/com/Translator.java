@@ -15,11 +15,11 @@ public class Translator {
 
 		String currentWorkingDirectory = System.getProperty("user.dir");
 
-//		if (args.length > 1) {
-//			Lexer lexer = new Lexer(readFile(getOutputFilePath(args[0])), getOutputFilePath(args[1]));
-//		} else {
-//			System.out.println("Use arguments like: java %filename% %name of input file% %name of output file%");
-//		}
+		if (args.length > 1) {
+			Lexer lexer = new Lexer(readFile(getOutputFilePath(args[0])), getOutputFilePath(args[1]));
+		} else {
+			System.out.println("Use arguments like: java %filename% %name of input file% %name of output file%");
+		}
 
 	}
 

@@ -1,3 +1,4 @@
 public static void main(String[] args) { #
-	return 0.567d-567;
+	return 0.567d-5;
+	retur;
 }

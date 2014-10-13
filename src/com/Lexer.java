@@ -23,6 +23,7 @@ public class Lexer {
 	public static final int SEMICOLON = -18;
 	public static final int INT = -19;
 	public static final int ID = -6;
+	public static final int ERROR = 0;
 
 	public static String outputFilePath;
 
@@ -59,7 +60,8 @@ public class Lexer {
 	public Token parseNext() throws NoMoreLexemesException {
 
 		while (i < length) {
-
+			//System.out.println(i);
+			//System.out.println(code.charAt(i));
 			identify(code.charAt(i), states);
 
 			if (areAllBroken(states)) {
@@ -74,7 +76,7 @@ public class Lexer {
 					return token;
 				} else {
 					//success //todo add to hash table
-
+					System.out.println(code.charAt(i));
 					Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
 
 					lastFinalState = 0;
@@ -384,12 +386,15 @@ public class Lexer {
 				return 0;
 			case 2:
 				if (ch == '.') {
+					//System.out.println(ch);
 					return 3;
 				}
 				return 0;
 			case 3:
 				if (Character.isDigit(ch)) {
 					return 4;
+				} else {
+					//System.out.println(ch);
 				}
 				return 0;
 			case 4:

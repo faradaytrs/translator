@@ -66,7 +66,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextDoubleFloat() {
-		lexer = new Lexer("0.657d-567", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("0.657d-6", Translator.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(-5, token.getState());
@@ -87,11 +87,66 @@ public class TestLexer {
 	}
 
 	@Test
-	public void testParseNextSign() {
+	public void testParseNextSemiColon() {
 		lexer = new Lexer(";", Translator.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.SEMICOLON, token.getState());
+		} catch (NoMoreLexemesException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testParseNextOpeningCurlyBrace() {
+		lexer = new Lexer("{", Translator.getOutputFilePath("result.txt"));
+		try {
+			Token token = lexer.parseNext();
+			assertEquals(Lexer.OPENING_CURLY_BRACE, token.getState());
+		} catch (NoMoreLexemesException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testParseNextClosingCurlyBrace() {
+		lexer = new Lexer("}", Translator.getOutputFilePath("result.txt"));
+		try {
+			Token token = lexer.parseNext();
+			assertEquals(Lexer.CLOSING_CURLY_BRACE, token.getState());
+		} catch (NoMoreLexemesException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testParseNextOpeningRoundBrace() {
+		lexer = new Lexer("(", Translator.getOutputFilePath("result.txt"));
+		try {
+			Token token = lexer.parseNext();
+			assertEquals(Lexer.OPENING_ROUND_BRACE, token.getState());
+		} catch (NoMoreLexemesException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testParseNextClosingRoundBrace() {
+		lexer = new Lexer(")", Translator.getOutputFilePath("result.txt"));
+		try {
+			Token token = lexer.parseNext();
+			assertEquals(Lexer.CLOSING_ROUND_BRACE, token.getState());
+		} catch (NoMoreLexemesException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testParseNextError() {
+		lexer = new Lexer(".......................", Translator.getOutputFilePath("result.txt"));
+		try {
+			Token token = lexer.parseNext();
+			assertEquals(Lexer.ERROR, token.getState());
 		} catch (NoMoreLexemesException e) {
 			e.printStackTrace();
 		}

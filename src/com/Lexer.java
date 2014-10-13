@@ -60,8 +60,7 @@ public class Lexer {
 	public Token parseNext() throws NoMoreLexemesException {
 
 		while (i < length) {
-			//System.out.println(i);
-			//System.out.println(code.charAt(i));
+
 			identify(code.charAt(i), states);
 
 			if (areAllBroken(states)) {
@@ -72,17 +71,19 @@ public class Lexer {
 					states = initStates();
 
 					startingPosition = i + 1;
+
 					i++;
 					return token;
 				} else {
 					//success //todo add to hash table
-					System.out.println(code.charAt(i));
+					//System.out.println(code.charAt(i));
 					Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
 
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
 					startingPosition = lastPositionWithFinalState + 1;
 					states = initStates();
+
 					i++;
 					return token;
 				}
@@ -90,18 +91,19 @@ public class Lexer {
 				if (getFinalState(states) != 0) {
 					lastFinalState = getFinalState(states);
 					lastPositionWithFinalState = i;
-					i++;
 				}
+				i++;
 			}
+
 		}
 
 		if (lastFinalState != 0) {
 
 			//success //todo add to hash table
-			i++;
 
 			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
 			lastFinalState = 0;
+
 			return token;
 
 		}
@@ -113,7 +115,9 @@ public class Lexer {
 	private boolean areAllBroken(int[] states) {
 		//temporary code
 		for (int i : states) {
-			if (i != 0) return false;
+			if (i != 0) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -386,15 +390,12 @@ public class Lexer {
 				return 0;
 			case 2:
 				if (ch == '.') {
-					//System.out.println(ch);
 					return 3;
 				}
 				return 0;
 			case 3:
 				if (Character.isDigit(ch)) {
 					return 4;
-				} else {
-					//System.out.println(ch);
 				}
 				return 0;
 			case 4:

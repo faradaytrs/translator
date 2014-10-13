@@ -39,6 +39,7 @@ public class Lexer {
 	}
 
 	public Lexer(String code, String outputFilePath) {
+
 		setOutputFilePath(outputFilePath);
 		createFile(outputFilePath);
 		this.code = code;
@@ -96,8 +97,10 @@ public class Lexer {
 
 			//success //todo add to hash table
 			i++;
+
+			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
 			lastFinalState = 0;
-			return new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
+			return token;
 
 		}
 

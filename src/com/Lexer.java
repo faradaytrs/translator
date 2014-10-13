@@ -21,6 +21,8 @@ public class Lexer {
 	public static final int OPENING_ROUND_BRACE = -16;
 	public static final int CLOSING_ROUND_BRACE = -17;
 	public static final int SEMICOLON = -18;
+	public static final int INT = -19;
+	public static final int ID = -6;
 
 	public static String outputFilePath;
 
@@ -179,12 +181,12 @@ public class Lexer {
 			//11234d
 			case 1:
 				if (Character.isDigit(ch)) {
-					return -18;
+					return -19;
 				}
 				return 0;
-			case -18:
+			case -19:
 				if (Character.isDigit(ch)) {
-					return -18;
+					return INT;
 				}
 				return 0;
 		}
@@ -195,11 +197,11 @@ public class Lexer {
 		switch (state) {
 			case 1:
 				if (Character.isLetter(ch)) {
-					return -6;
+					return ID;
 				}
 			case -6:
 				if (Character.isLetter(ch)) {
-					return -6;
+					return ID;
 				}
 				//-7 - -12 reserved by this FSM
 		}

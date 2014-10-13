@@ -1,5 +1,7 @@
 package com;
 
+import com.exceptions.NoMoreLexemesException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,6 +19,16 @@ public class Translator {
 
 		if (args.length > 1) {
 			Lexer lexer = new Lexer(readFile(getOutputFilePath(args[0])), getOutputFilePath(args[1]));
+			try {
+				while (true) {
+					Token token = lexer.parseNext();
+					token.printToConsole();
+					//token.printToFile(readFile(getOutputFilePath(args[0])));
+				}
+			} catch (NoMoreLexemesException e) {
+				System.out.println("Parsing done!");
+				//e.printStackTrace();
+			}
 		} else {
 			System.out.println("Use arguments like: java %filename% %name of input file% %name of output file%");
 		}

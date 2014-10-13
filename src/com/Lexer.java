@@ -1,5 +1,7 @@
 package com;
 
+import com.exceptions.NoMoreLexemesException;
+
 import java.io.*;
 
 /**
@@ -22,6 +24,14 @@ public class Lexer {
 
 	public static String outputFilePath;
 
+	private int lastFinalState = 0;
+	private int lastPositionWithFinalState = 0;
+	private int startingPosition = 0;
+	private int i = 0;
+	private int[] states = initStates();
+	private String code;
+	private int length;
+
 	public static void setOutputFilePath(String outputFilePath) {
 		Lexer.outputFilePath = outputFilePath;
 	}
@@ -29,7 +39,9 @@ public class Lexer {
 	public Lexer(String code, String outputFilePath) {
 		setOutputFilePath(outputFilePath);
 		createFile(outputFilePath);
-		parse(code);
+		this.code = code;
+		this.length = code.length();
+
 	}
 
 	private void createFile(String outputFilePath) {
@@ -41,67 +53,53 @@ public class Lexer {
 		}
 	}
 
-	private void parse(String code) {
+	public Token parseNext() throws NoMoreLexemesException {
 
-		int[] states = initStates();
-
-		int length = code.length();
-
-		//abc 1.1 #
-		// 1.1d+
-		// 1.1
-
-		int lastFinalState = 0;
-		int lastPositionWithFinalState = 0;
-		int startingPosition = 0;
-
-		for (int i=0; i < length; i++) {
+		while (i < length) {
 
 			identify(code.charAt(i), states);
 
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
 
-					Token token = new Token(startingPosition, i+1, code.substring(startingPosition, i+1), 0);
-
-					token.printToConsole();
-					token.printToFile(outputFilePath);
+					Token token = new Token(startingPosition, i + 1, code.substring(startingPosition, i + 1), 0);
 
 					states = initStates();
 
 					startingPosition = i + 1;
+					i++;
+					return token;
 				} else {
 					//success //todo add to hash table
 
-					Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState+1), lastFinalState);
+					Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
 
-					token.printToConsole();
-					token.printToFile(outputFilePath);
-
-					//printTokenToConsole(startingPosition, lastPositionWithFinalState, lastFinalState);
-					//printTokenToFile(startingPosition, lastPositionWithFinalState, lastFinalState);
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
 					startingPosition = lastPositionWithFinalState + 1;
 					states = initStates();
+					i++;
+					return token;
 				}
 			} else {
 				if (getFinalState(states) != 0) {
 					lastFinalState = getFinalState(states);
 					lastPositionWithFinalState = i;
+					i++;
 				}
 			}
 		}
 
 		if (lastFinalState != 0) {
+
 			//success //todo add to hash table
-
-			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
-
-			token.printToConsole();
-			token.printToFile(outputFilePath);
+			i++;
+			lastFinalState = 0;
+			return new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
 
 		}
+
+		throw new NoMoreLexemesException();
 
 	}
 

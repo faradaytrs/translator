@@ -33,19 +33,22 @@ public class Translator {
 				System.out.println("Printing results to file");
 				Printer.printTokensToFile(tokens, Printer.getOutputFilePath(args[1]));
 
+
+				Runtime runtime = Runtime.getRuntime();
+				long memory = runtime.totalMemory() - runtime.freeMemory();
+
+				Printer.printLineToFile(Printer.getOutputFilePath(args[1]));
+
+				Printer.printToFile("Used memory is kilobytes: " + memory/1024, Printer.getOutputFilePath(args[1]));
+
+				Printer.printToFile("Time in millis: " + (System.currentTimeMillis() - time), Printer.getOutputFilePath(args[1]));
+
 			}
 		} else {
-			System.out.println("Use arguments like: java %filename% %name of input file% %name of output file%");
+			System.out.println("Use arguments: %name of input file% %name of output file%");
 		}
 
-		Runtime runtime = Runtime.getRuntime();
-		long memory = runtime.totalMemory() - runtime.freeMemory();
 
-		Printer.printLineToFile(Printer.getOutputFilePath(args[1]));
-
-		Printer.printToFile("Used memory is kilobytes: " + memory/1024, Printer.getOutputFilePath(args[1]));
-
-		Printer.printToFile("Time in millis: " + (System.currentTimeMillis() - time), Printer.getOutputFilePath(args[1]));
 
 	}
 

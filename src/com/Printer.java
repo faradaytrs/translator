@@ -77,4 +77,18 @@ public class Printer {
 		return currentWorkingDirectory + "\\" + fileName;
 	}
 
+	public static void printToFile(String info, String filePath) {
+		try {
+			PrintWriter file = getFile(filePath);
+			file.println(info);
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void printLineToFile(String filepath) {
+		printToFile("==================================================", filepath);
+	}
+
 }

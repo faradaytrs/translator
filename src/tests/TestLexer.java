@@ -1,12 +1,13 @@
 package tests;
 
 import com.Lexer;
+import com.Printer;
 import com.Token;
-import com.Translator;
 import com.exceptions.NoMoreLexemesException;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Andrey Izotov on 13.10.2014.
@@ -17,12 +18,12 @@ public class TestLexer {
 
 	@Before
 	public void setUp() {
-		lexer = new Lexer("public static void main(String[] args) { # return 5.5 + 10; }", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("public static void main(String[] args) { # return 5.5 + 10; }", Printer.getOutputFilePath("result.txt"));
 	}
 
 	@Test
 	public void testParseNextId() {
-		lexer = new Lexer("id", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("id", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.ID, token.getState());
@@ -33,7 +34,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextKeyWord() {
-		lexer = new Lexer("return", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("return", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.RETURN_KEYWORD, token.getState());
@@ -44,7 +45,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextFloat() {
-		lexer = new Lexer("5.5", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("5.5", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(-2, token.getState());
@@ -55,7 +56,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextInt() {
-		lexer = new Lexer("56785", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("56785", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.INT, token.getState());
@@ -66,7 +67,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextDoubleFloat() {
-		lexer = new Lexer("0.657d-6", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("0.657d-6", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(-5, token.getState());
@@ -77,7 +78,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextSpace() {
-		lexer = new Lexer("                                     ", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("                                     ", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.SPACE, token.getState());
@@ -88,7 +89,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextSemiColon() {
-		lexer = new Lexer(";", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer(";", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.SEMICOLON, token.getState());
@@ -99,7 +100,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextOpeningCurlyBrace() {
-		lexer = new Lexer("{", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("{", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.OPENING_CURLY_BRACE, token.getState());
@@ -110,7 +111,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextClosingCurlyBrace() {
-		lexer = new Lexer("}", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("}", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.CLOSING_CURLY_BRACE, token.getState());
@@ -121,7 +122,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextOpeningRoundBrace() {
-		lexer = new Lexer("(", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer("(", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.OPENING_ROUND_BRACE, token.getState());
@@ -132,7 +133,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextClosingRoundBrace() {
-		lexer = new Lexer(")", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer(")", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.CLOSING_ROUND_BRACE, token.getState());
@@ -143,7 +144,7 @@ public class TestLexer {
 
 	@Test
 	public void testParseNextError() {
-		lexer = new Lexer(".......................", Translator.getOutputFilePath("result.txt"));
+		lexer = new Lexer(".......................", Printer.getOutputFilePath("result.txt"));
 		try {
 			Token token = lexer.parseNext();
 			assertEquals(Lexer.ERROR, token.getState());

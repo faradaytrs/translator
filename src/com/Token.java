@@ -1,10 +1,5 @@
 package com;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 /**
  * Created by farad_000 on 04.10.2014.
  */
@@ -53,29 +48,6 @@ public class Token {
 
 	private void setState(int state) {
 		this.state = state;
-	}
-
-	public void printToConsole() {
-		System.out.println(printText());
-	}
-
-	private String printText() {
-		return "LEXEME: \'" + getToken() + "\'" + " POSITION " + getStartingPosition() + " — " + getEndingPosition() + " STATE: \'" + getState() + "\'";
-	}
-
-	public void printToFile(String filePath) {
-		//todo rework writing to file, now it works very slow
-		try {
-			PrintWriter file = getFile(filePath);
-			file.println(printText());
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private PrintWriter getFile(String filePath) throws IOException {
-		return new PrintWriter(new BufferedWriter(new FileWriter(filePath, true)));
 	}
 
 }

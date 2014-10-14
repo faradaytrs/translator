@@ -2,12 +2,11 @@ package com;
 
 import com.exceptions.NoMoreLexemesException;
 
-import java.io.*;
-
 /**
  * Изотов Андрей ИВТ11-БО
  */
 
+// every object is immutable and if you started parsing you need to create new one for changing position or text.
 public class Lexer {
 
 	public static final int LENGTH = 7;
@@ -25,8 +24,6 @@ public class Lexer {
 	public static final int ID = -6;
 	public static final int ERROR = 0;
 
-	public static String outputFilePath;
-
 	private int lastFinalState = 0;
 	private int lastPositionWithFinalState = 0;
 	private int startingPosition = 0;
@@ -35,26 +32,11 @@ public class Lexer {
 	private String code;
 	private int length;
 
-	public static void setOutputFilePath(String outputFilePath) {
-		Lexer.outputFilePath = outputFilePath;
-	}
-
 	public Lexer(String code, String outputFilePath) {
 
-		setOutputFilePath(outputFilePath);
-		createFile(outputFilePath);
 		this.code = code;
 		this.length = code.length();
 
-	}
-
-	private void createFile(String outputFilePath) {
-		try {
-			//rewriting old file
-			new PrintWriter(outputFilePath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public Token parseNext() throws NoMoreLexemesException {

@@ -33,12 +33,7 @@ public class Translator {
 
 			}
 
-			Runtime runtime = Runtime.getRuntime();
-			long memory = runtime.totalMemory() - runtime.freeMemory();
-
 			Printer.printLineToFile(Printer.getOutputFilePath(args[1]));
-
-			Printer.printToFile("Used memory is kilobytes: " + memory/1024, Printer.getOutputFilePath(args[1]));
 
 			Printer.printToFile("Time in millis: " + (System.currentTimeMillis() - time), Printer.getOutputFilePath(args[1]));
 

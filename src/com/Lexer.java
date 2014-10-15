@@ -79,7 +79,7 @@ public class Lexer {
 
 		}
 
-		if (lastFinalState != 0) {
+		if (lastFinalState != 0 && i >= length) {
 
 			//success //todo add to hash table
 

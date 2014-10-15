@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Andrey Izotov on 13.10.2014.
  */
+
 public class TestLexer {
 
 	private Lexer lexer;

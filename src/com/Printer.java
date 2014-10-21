@@ -56,7 +56,7 @@ public class Printer {
 	}
 
 	private static PrintWriter getFile(String filePath) throws IOException {
-		return new PrintWriter(new BufferedWriter(new FileWriter(filePath, true)));
+		return new PrintWriter(new FileWriter(filePath, true));
 	}
 
 	public static String readFile(String filename) {

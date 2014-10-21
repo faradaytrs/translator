@@ -48,11 +48,13 @@ public class Lexer {
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
 
-					Token token = new Token(startingPosition, i + 1, code.substring(startingPosition, i + 1), 0);
+					Token token = new Token(startingPosition, startingPosition + 1, code.substring(startingPosition, startingPosition + 1), 0);
 
 					states = initStates();
 
-					startingPosition = i + 1;
+					startingPosition++;
+
+					i = startingPosition;
 
 					i++;
 					return token;

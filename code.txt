@@ -1,4 +1,4 @@
 import com.package;
-public static void main(String[] args) { #
+public static void main(String[] args) { ##
 	return 0.567d-5;
 }

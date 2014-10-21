@@ -52,9 +52,9 @@ public class Lexer {
 
 					states = initStates();
 
-					startingPosition++;
-
 					i = startingPosition;
+
+					startingPosition++;
 
 					i++;
 					return token;

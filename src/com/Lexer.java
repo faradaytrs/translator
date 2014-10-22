@@ -42,6 +42,10 @@ public class Lexer {
 	private String code;
 	private int length;
 
+	public HashTable[] getTables() {
+		return tables;
+	}
+
 	private HashTable[] tables;
 
 	public Lexer(String code, String outputFilePath) {

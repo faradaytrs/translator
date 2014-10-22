@@ -1,6 +1,7 @@
 package com;
 
 import com.exceptions.NoMoreLexemesException;
+import com.hashtables.HashTable;
 
 import java.util.ArrayList;
 import java.util.List;/*
@@ -25,11 +26,20 @@ public class Translator {
 				}
 			} catch (NoMoreLexemesException e) {
 
-				Printer.createFile(Printer.getOutputFilePath(args[1]));
+				String filePath = Printer.getOutputFilePath(args[1]);
+
+				Printer.createFile(filePath);
 				//Printer.printTokensToConsole(tokens);
 				System.out.println("Parsing done!");
 				System.out.println("Printing results to file");
-				Printer.printTokensToFile(tokens, Printer.getOutputFilePath(args[1]));
+				Printer.printTokensToFile(tokens, filePath);
+
+				HashTable[] tables = lexer.getTables();
+
+				for (HashTable table : tables) {
+					Printer.printLineToFile(filePath);
+					Printer.printHashTableToFile(table, filePath);
+				}
 
 			}
 

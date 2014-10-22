@@ -25,6 +25,10 @@ public class HashTable {
 		this.lengthOfArray = lengthOfArray;
 	}
 
+	public String getByIndex(int index) {
+		return table[index];
+	}
+
 	private int getHash(String str) {
 		int length = str.length();
 		long index = 0;

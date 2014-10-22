@@ -1,5 +1,7 @@
 package com;
 
+import com.hashtables.HashTable;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -89,6 +91,26 @@ public class Printer {
 
 	public static void printLineToFile(String filepath) {
 		printToFile("==================================================", filepath);
+	}
+
+	public static void printHashTableToFile(HashTable table, String filePath) {
+
+		try {
+			PrintWriter file = getFile(filePath);
+			int length = table.getLengthOfArray();
+
+			for (int i = 0; i < length; i++) {
+				String str = table.getByIndex(i);
+				if (str != null) {
+					file.println("INDEX " + i + " STRING: " + str);
+				}
+			}
+			file.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

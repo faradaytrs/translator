@@ -17,7 +17,7 @@ public class Printer {
 	}
 
 	private static String printText(Token token) {
-		return "LEXEME: \'" + token.getToken() + "\'" + " POSITION " + token.getStartingPosition() + " — " + token.getEndingPosition() + " STATE: \'" + token.getState() + "\'";
+		return "POSITION " + token.getStartingPosition() + " — " + token.getEndingPosition() + " STATE: \'" + token.getState() + "\'" + " NUMBER OF TABLE AND INDEX " + token.getNumberOfTable() + "|" + token.getIndex();
 	}
 
 	public static void printTokenToFile(Token token, String filePath) {

@@ -1,6 +1,8 @@
 package com;
 
 import com.exceptions.NoMoreLexemesException;
+import com.hashtables.HashTable;
+import com.hashtables.exceptions.NoPlaceInTableException;
 
 /**
  * Изотов Андрей ИВТ11-БО
@@ -23,6 +25,14 @@ public class Lexer {
 	public static final int INT = -19;
 	public static final int ID = -6;
 	public static final int ERROR = 0;
+	public static final int TABLE_INT = 0;
+	public static final int TABLE_ID = 1;
+	public static final int TABLE_KEYWORD = 2;
+	public static final int TABLE_FLOAT = 3;
+	public static final int TABLE_DOUBLE_FLOAT = 4;
+	public static final int TABLE_SPACE = 5;
+	public static final int TABLE_SIGN = 6;
+	public static final int TABLE_ERROR = 7;
 
 	private int lastFinalState = 0;
 	private int lastPositionWithFinalState = 0;
@@ -32,10 +42,18 @@ public class Lexer {
 	private String code;
 	private int length;
 
+	private HashTable[] tables;
+
 	public Lexer(String code, String outputFilePath) {
 
 		this.code = code;
 		this.length = code.length();
+
+		this.tables = new HashTable[LENGTH + 1];
+
+		for (int i = 0; i < tables.length; i++) {
+			tables[i] = new HashTable(length/2);
+		}
 
 	}
 
@@ -48,26 +66,44 @@ public class Lexer {
 			if (areAllBroken(states)) {
 				if (lastFinalState == 0) {
 
-					Token token = new Token(startingPosition, startingPosition + 1, code.substring(startingPosition, startingPosition + 1), 0);
+					int numberOfTable = getNumberOfTable(0);
+					int index = -1;
+
+					try {
+						index = tables[numberOfTable].add(code.substring(startingPosition, startingPosition + 1));
+					} catch (NoPlaceInTableException e) {
+						e.printStackTrace();
+					}
+
+					Token token = new Token(startingPosition, startingPosition + 1, index, numberOfTable, 0);
 
 					states = initStates();
-
 					i = startingPosition;
-
 					startingPosition++;
-
 					i++;
 					return token;
 				} else {
-					//success //todo add to hash table
-					//System.out.println(code.charAt(i));
-					Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
+
+					int numberOfTable = getNumberOfTable(lastFinalState);
+
+					if (numberOfTable == -1) {
+						System.out.println(lastFinalState);
+					}
+
+					int index = -1;
+
+					try {
+						index = tables[numberOfTable].add(code.substring(startingPosition, lastPositionWithFinalState + 1));
+					} catch (NoPlaceInTableException e) {
+						e.printStackTrace();
+					}
+
+					Token token = new Token(startingPosition, lastPositionWithFinalState + 1, index, numberOfTable , lastFinalState);
 
 					lastFinalState = 0;
 					i = lastPositionWithFinalState;
 					startingPosition = lastPositionWithFinalState + 1;
 					states = initStates();
-
 					i++;
 					return token;
 				}
@@ -85,7 +121,17 @@ public class Lexer {
 
 			//success //todo add to hash table
 
-			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, code.substring(startingPosition, lastPositionWithFinalState + 1), lastFinalState);
+			int numberOfTable = getNumberOfTable(lastFinalState);
+
+			int index = -1;
+
+			try {
+				index = tables[numberOfTable].add(code.substring(startingPosition, lastPositionWithFinalState + 1));
+			} catch (NoPlaceInTableException e) {
+				e.printStackTrace();
+			}
+
+			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, index, numberOfTable , lastFinalState);
 			lastFinalState = 0;
 
 			return token;
@@ -94,6 +140,39 @@ public class Lexer {
 
 		throw new NoMoreLexemesException();
 
+	}
+
+	private int getNumberOfTable(int state) {
+		switch (state) {
+
+			case INT:
+				return TABLE_INT;
+			case ID:
+				return TABLE_ID;
+			case FLOAT_KEYWORD | DOUBLE_KEYWORD:
+			case DOUBLE_KEYWORD:
+			case RETURN_KEYWORD:
+				return TABLE_KEYWORD;
+			case -1:
+			case -2:
+			case -3:
+			case -4:
+				return TABLE_FLOAT;
+			case -5:
+				return TABLE_DOUBLE_FLOAT;
+			case SPACE:
+				return TABLE_SPACE;
+			case CLOSING_CURLY_BRACE:
+			case OPENING_CURLY_BRACE:
+			case OPENING_ROUND_BRACE:
+			case CLOSING_ROUND_BRACE:
+			case SEMICOLON:
+				return TABLE_SIGN;
+			case ERROR:
+				return TABLE_ERROR;
+
+		}
+		return -1;
 	}
 
 	private boolean areAllBroken(int[] states) {
@@ -174,7 +253,7 @@ public class Lexer {
 			//11234d
 			case 1:
 				if (Character.isDigit(ch)) {
-					return -19;
+					return INT;
 				}
 				return 0;
 			case -19:

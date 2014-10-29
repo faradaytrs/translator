@@ -33,7 +33,7 @@ public class HashTable {
 		int length = str.length();
 		long index = 0;
 		for (int i = 0; i < length; i++) {
-			index += (int)str.charAt(i)*(i%3);
+			index += (int)str.charAt(i)*(i*length%3+1);
 		}
 		//index += step;
 

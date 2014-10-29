@@ -1,5 +1,6 @@
 import com.package;
 public static void main(String[] args) { ##
 	3
+	0.5e+56
 	return 0.567d-5;
 }

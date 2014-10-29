@@ -19,7 +19,7 @@ public class Printer {
 	}
 
 	private static String printText(Token token) {
-		return "POSITION " + token.getStartingPosition() + " — " + token.getEndingPosition() + " STATE: \'" + token.getState() + "\'" + " NUMBER OF TABLE AND INDEX " + token.getNumberOfTable() + "|" + token.getIndex();
+		return "TOKEN: " + getNameOfTableByState(token.getState()) + " (" + token.getState() + ")" + " INDEX " + token.getIndex();
 	}
 
 	public static void printTokenToFile(Token token, String filePath) {
@@ -77,6 +77,39 @@ public class Printer {
 	public static String getOutputFilePath(String fileName) {
 		String currentWorkingDirectory = System.getProperty("user.dir");
 		return currentWorkingDirectory + "\\" + fileName;
+	}
+
+	private static String getNameOfTableByState(int state) {
+		switch (state) {
+
+			case Lexer.INT:
+				return "INT";
+			case Lexer.ID:
+				return "ID";
+			case Lexer.FLOAT_KEYWORD | Lexer.DOUBLE_KEYWORD:
+			case Lexer.DOUBLE_KEYWORD:
+			case Lexer.RETURN_KEYWORD:
+				return "KEYWORD";
+			case -1:
+			case -2:
+			case -3:
+			case -4:
+				return "FLOAT";
+			case -5:
+				return "DOUBLE FLOAT";
+			case Lexer.SPACE:
+				return "SPACE";
+			case Lexer.CLOSING_CURLY_BRACE:
+			case Lexer.OPENING_CURLY_BRACE:
+			case Lexer.OPENING_ROUND_BRACE:
+			case Lexer.CLOSING_ROUND_BRACE:
+			case Lexer.SEMICOLON:
+				return "SIGN";
+			case Lexer.ERROR:
+				return "ERROR";
+
+		}
+		return "";
 	}
 
 	public static void printToFile(String info, String filePath) {

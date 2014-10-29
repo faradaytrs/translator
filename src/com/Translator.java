@@ -4,9 +4,7 @@ import com.exceptions.NoMoreLexemesException;
 import com.hashtables.HashTable;
 
 import java.util.ArrayList;
-import java.util.List;/*
- * Изотов Андрей ИВТ11-БО
- */
+import java.util.List;
 
 public class Translator {
 
@@ -36,10 +34,40 @@ public class Translator {
 
 				HashTable[] tables = lexer.getTables();
 
-				for (HashTable table : tables) {
-					Printer.printLineToFile(filePath);
-					Printer.printHashTableToFile(table, filePath);
-				}
+				//print int table
+				Printer.printLineToFile(filePath);
+				Printer.printToFile("INT TABLE" ,filePath);
+				Printer.printLineToFile(filePath);
+				Printer.printHashTableToFile(tables[0], filePath);
+
+				//id table
+				Printer.printLineToFile(filePath);
+				Printer.printToFile("ID TABLE" ,filePath);
+				Printer.printLineToFile(filePath);
+				Printer.printHashTableToFile(tables[1], filePath);
+
+				//keywords
+				Printer.printLineToFile(filePath);
+				Printer.printToFile("KEYWORD TABLE" ,filePath);
+				Printer.printLineToFile(filePath);
+				Printer.printHashTableToFile(tables[2], filePath);
+
+				//float table
+				Printer.printLineToFile(filePath);
+				Printer.printToFile("FLOAT TABLE" ,filePath);
+				Printer.printLineToFile(filePath);
+				Printer.printHashTableToFile(tables[3], filePath);
+
+				//double float table
+				Printer.printLineToFile(filePath);
+				Printer.printToFile("DOUBLE FLOAT TABLE" ,filePath);
+				Printer.printLineToFile(filePath);
+				Printer.printHashTableToFile(tables[4], filePath);
+
+//				for (HashTable table : tables) {
+//					Printer.printLineToFile(filePath);
+//					Printer.printHashTableToFile(table, filePath);
+//				}
 
 			}
 

@@ -48,6 +48,40 @@ public class Printer {
 		}
 	}
 
+	public static void printTables(HashTable[] tables, String filePath) {
+
+		//print int table
+		Printer.printLineToFile(filePath);
+		Printer.printToFile("INT TABLE" ,filePath);
+		Printer.printLineToFile(filePath);
+		Printer.printHashTableToFile(tables[0], filePath);
+
+		//id table
+		Printer.printLineToFile(filePath);
+		Printer.printToFile("ID TABLE" ,filePath);
+		Printer.printLineToFile(filePath);
+		Printer.printHashTableToFile(tables[1], filePath);
+
+		//keywords
+		Printer.printLineToFile(filePath);
+		Printer.printToFile("KEYWORD TABLE" ,filePath);
+		Printer.printLineToFile(filePath);
+		Printer.printHashTableToFile(tables[2], filePath);
+
+		//float table
+		Printer.printLineToFile(filePath);
+		Printer.printToFile("FLOAT TABLE" ,filePath);
+		Printer.printLineToFile(filePath);
+		Printer.printHashTableToFile(tables[3], filePath);
+
+		//double float table
+		Printer.printLineToFile(filePath);
+		Printer.printToFile("DOUBLE FLOAT TABLE" ,filePath);
+		Printer.printLineToFile(filePath);
+		Printer.printHashTableToFile(tables[4], filePath);
+
+	}
+
 	public static void createFile(String outputFilePath) {
 		try {
 			//rewriting old file

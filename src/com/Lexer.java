@@ -68,6 +68,7 @@ public class Lexer {
 			identify(code.charAt(i), states);
 
 			if (areAllBroken(states)) {
+
 				if (lastFinalState == 0) {
 
 					int numberOfTable = getNumberOfTable(0);
@@ -86,6 +87,7 @@ public class Lexer {
 					startingPosition++;
 					i++;
 					return token;
+
 				} else {
 
 					int numberOfTable = getNumberOfTable(lastFinalState);

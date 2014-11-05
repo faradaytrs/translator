@@ -30,9 +30,11 @@ public class Translator {
 				//Printer.printTokensToConsole(tokens);
 				System.out.println("Parsing done!");
 				System.out.println("Printing results to file");
-				Printer.printTokensToFile(tokens, filePath);
+
 
 				HashTable[] tables = lexer.getTables();
+
+				Printer.printTokensToFile(tokens, filePath, tables);
 
 				Printer.printTables(tables, filePath);
 

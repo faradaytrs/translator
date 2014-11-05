@@ -33,6 +33,7 @@ public class Lexer {
 	public static final int TABLE_SPACE = 5;
 	public static final int TABLE_SIGN = 6;
 	public static final int TABLE_ERROR = 7;
+	private static final int MAX_ID_LENGTH = 7;
 
 	private int lastFinalState = 0;
 	private int lastPositionWithFinalState = 0;
@@ -70,10 +71,8 @@ public class Lexer {
 			if (areAllBroken(states)) {
 
 				if (lastFinalState == 0) {
-
 					int numberOfTable = getNumberOfTable(0);
 					int index = -1;
-
 					try {
 						index = tables[numberOfTable].add(code.substring(startingPosition, startingPosition + 1));
 					} catch (NoPlaceInTableException e) {
@@ -89,17 +88,18 @@ public class Lexer {
 					return token;
 
 				} else {
-
 					int numberOfTable = getNumberOfTable(lastFinalState);
 
 					if (numberOfTable == -1) {
 						System.out.println(lastFinalState);
 					}
 
-					int index = -1;
+					String str = code.substring(startingPosition, lastPositionWithFinalState + 1);
+					str = cutIDString(str);
 
+					int index = -1;
 					try {
-						index = tables[numberOfTable].add(code.substring(startingPosition, lastPositionWithFinalState + 1));
+						index = tables[numberOfTable].add(str);
 					} catch (NoPlaceInTableException e) {
 						e.printStackTrace();
 					}
@@ -126,26 +126,35 @@ public class Lexer {
 		if (lastFinalState != 0 && i >= length) {
 
 			//success //todo add to hash table
-
 			int numberOfTable = getNumberOfTable(lastFinalState);
-
 			int index = -1;
+			String str = code.substring(startingPosition, lastPositionWithFinalState + 1);
+			str = cutIDString(str);
+			if (lastFinalState == ID) {
+				if (str.length() > 7) {
+					str = str.substring(0, 7);
+				}
+			}
 
 			try {
-				index = tables[numberOfTable].add(code.substring(startingPosition, lastPositionWithFinalState + 1));
+				index = tables[numberOfTable].add(str);
 			} catch (NoPlaceInTableException e) {
 				e.printStackTrace();
 			}
-
 			Token token = new Token(startingPosition, lastPositionWithFinalState + 1, index, numberOfTable , lastFinalState);
 			lastFinalState = 0;
-
 			return token;
-
 		}
 
 		throw new NoMoreLexemesException();
 
+	}
+
+	private String cutIDString(String id) {
+		if (id.length() > MAX_ID_LENGTH) {
+			return id.substring(0, MAX_ID_LENGTH);
+		}
+		return id;
 	}
 
 	private int getNumberOfTable(int state) {

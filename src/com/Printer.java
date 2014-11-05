@@ -12,35 +12,27 @@ import java.util.List;
  */
 public class Printer {
 
-	public static void printTokenToConsole(Token token) {
+	private static String printText(Token token, HashTable[] tables) {
+		int tableNumber = token.getNumberOfTable();
+		HashTable table = tables[tableNumber];
+		int index = token.getIndex();
+		String lexeme = table.getByIndex(index);
+		return lexeme + ": " + getNameOfTableByState(token.getState()) + " (" + token.getState() + ")" + " INDEX " + token.getIndex();
+	}
+
+	public static void printTokenToFile(Token token, String filePath, HashTable[] tables) {
 		List<Token> list = new ArrayList<Token>();
 		list.add(token);
-		printTokensToConsole(list);
-	}
-
-	private static String printText(Token token) {
-		return "TOKEN: " + getNameOfTableByState(token.getState()) + " (" + token.getState() + ")" + " INDEX " + token.getIndex();
-	}
-
-	public static void printTokenToFile(Token token, String filePath) {
-		List<Token> list = new ArrayList<Token>();
-		list.add(token);
-		printTokensToFile(list, filePath);
+		printTokensToFile(list, filePath, tables);
 
 	}
 
-	public static void printTokensToConsole(List<Token> list) {
-		for (Token token : list) {
-			System.out.println(printText(token));
-		}
-	}
-
-	public static void printTokensToFile(List<Token> list, String filePath) {
+	public static void printTokensToFile(List<Token> list, String filePath, HashTable[] tables) {
 
 		try {
 			PrintWriter file = getFile(filePath);
 			for (Token token : list) {
-				file.println(printText(token));
+				file.println(printText(token, tables));
 			}
 			file.close();
 		} catch (IOException e) {

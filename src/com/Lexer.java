@@ -95,7 +95,9 @@ public class Lexer {
 					}
 
 					String str = code.substring(startingPosition, lastPositionWithFinalState + 1);
-					str = cutIDString(str);
+					if (lastFinalState == ID) {
+						str = cutIDString(str);
+					}
 
 					int index = -1;
 					try {
@@ -131,9 +133,7 @@ public class Lexer {
 			String str = code.substring(startingPosition, lastPositionWithFinalState + 1);
 			str = cutIDString(str);
 			if (lastFinalState == ID) {
-				if (str.length() > 7) {
-					str = str.substring(0, 7);
-				}
+				str = cutIDString(str);
 			}
 
 			try {

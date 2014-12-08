@@ -14,7 +14,7 @@ public class Translator {
 
 		if (args.length > 1) {
 			Lexer lexer = new Lexer(Printer.readFile(Printer.getOutputFilePath(args[0])), Printer.getOutputFilePath(args[1]));
-			List<Token> tokens = new ArrayList<Token>();
+			List<Token> tokens = new ArrayList<>();
 
 			try {
 				while (true) {

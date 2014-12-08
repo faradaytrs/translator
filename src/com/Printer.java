@@ -21,7 +21,7 @@ public class Printer {
 	}
 
 	public static void printTokenToFile(Token token, String filePath, HashTable[] tables) {
-		List<Token> list = new ArrayList<Token>();
+		List<Token> list = new ArrayList<>();
 		list.add(token);
 		printTokensToFile(list, filePath, tables);
 
@@ -102,7 +102,7 @@ public class Printer {
 
 	public static String getOutputFilePath(String fileName) {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		return currentWorkingDirectory + "\\" + fileName;
+		return currentWorkingDirectory + File.separator + fileName;
 	}
 
 	private static String getNameOfTableByState(int state) {

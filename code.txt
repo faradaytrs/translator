@@ -1,6 +1,7 @@
-import com.package;
+1 import com.package;
 publicccccccc static void main(String[] args) { ##
 	3
+	doublefloat
 	0.5e+56
 	return 0.567d-5;
 }

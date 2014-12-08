@@ -92,8 +92,6 @@ public class Printer {
 		try {
 			byte[] bytes = Files.readAllBytes(f.toPath());
 			return new String(bytes, "UTF-8");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
